@@ -7,14 +7,14 @@ import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { DepartmentsSection } from '@/components/DepartmentsSection'
 
-interface PageProps {
-  pageKey: keyof ReturnType<typeof getTranslation>['nav']
-}
-
-export default function GenericPage({ pageKey }: PageProps) {
+export default function GenericPage() {
   const searchParams = useSearchParams()
   const initialLang = (searchParams.get('lang') || defaultLocale) as Locale
   const [locale, setLocale] = useState<Locale>(initialLang)
+
+  // استخراج مفتاح الصفحة من الكويري
+  const pageKey = (searchParams.get('page') || 'contact') as keyof ReturnType<typeof getTranslation>['nav']
+
   const t = getTranslation(locale)
   const isRTL = locale === 'ar'
 
@@ -32,11 +32,7 @@ export default function GenericPage({ pageKey }: PageProps) {
           <h1 className="text-5xl font-bold text-gray-900 mb-8">
             {t.nav[pageKey]}
           </h1>
-          {/* <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            {isRTL
-              ? 'سيتم إضافة محتوى هذه الصفحة قريبًا. نحن نعمل على تجهيز معلومات مفصلة وثرية.'
-              : 'Content for this page will be added soon. We’re working on detailed and rich information.'}
-          </p> */}
+
           <DepartmentsSection locale={locale} />
         </div>
       </main>

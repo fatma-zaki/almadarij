@@ -10,6 +10,7 @@ import { getTranslation, Locale } from '@/lib/i18n'
 
 interface HeaderProps {
   locale: Locale
+  onLocaleChange?: (newLocale: Locale) => void
 }
 
 export function Header({ locale }: HeaderProps) {
