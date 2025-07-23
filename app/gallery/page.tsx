@@ -148,28 +148,62 @@ export default function GalleryPage() {
             <h2 className="text-2xl font-semibold text-blue-700 mb-4">{isRTL ? 'الفيديوهات' : 'Videos'}</h2>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 mb-12">
-            {videos.map((vid, idx) => (
-              <div
-                key={vid}
-                className="rounded-xl overflow-hidden shadow-md bg-black group transition-transform duration-200 hover:scale-105 hover:shadow-xl border border-gray-100 cursor-pointer flex items-center justify-center"
-                onClick={() => handleVideoClick(`/videos/${vid}`)}
-                tabIndex={0}
-                role="button"
-                aria-label="تكبير الفيديو"
-              >
-                <div className="aspect-w-16 aspect-h-10 w-full flex items-center justify-center">
+            {videos.map((vid, idx) => {
+              const isPlaying = !!(modal && modal.type === 'video' && modal.src === `/videos/${vid}`);
+              return (
+                <div
+                  key={vid}
+                  className="rounded-xl overflow-hidden shadow-md bg-black group transition-transform duration-200 hover:scale-105 hover:shadow-xl border border-gray-100 flex items-center justify-center relative"
+                  style={{ minHeight: '10rem' }}
+                >
+                  {/* علامة فيديو في الزاوية */}
+                  <span className="absolute top-3 left-3 z-20 bg-black/70 text-white text-xs px-2 py-1 rounded shadow-lg flex items-center gap-1">
+                    <svg className="w-3 h-3 inline-block mr-1" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 3v18l15-9L5 3z" /></svg>
+                    فيديو
+                  </span>
+                  {/* صورة الغلاف وزر التشغيل */}
+                  {!isPlaying && (
+                    <>
+                      <img
+                        src={`/gallery/${images[0]}`}
+                        alt="video-poster"
+                        className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
+                        draggable={false}
+                      />
+                      <button
+                        className="absolute inset-0 flex items-center justify-center w-full h-full z-10 focus:outline-none"
+                        onClick={e => {
+                          e.stopPropagation();
+                          handleVideoClick(`/videos/${vid}`);
+                        }}
+                        aria-label="تشغيل الفيديو"
+                        tabIndex={0}
+                      >
+                        <span className="flex items-center justify-center">
+                          <span className="animate-pulse rounded-full bg-black/70 hover:bg-black/90 p-8 shadow-2xl flex items-center justify-center transition-transform duration-200 group-hover:scale-110">
+                            <svg className="w-14 h-14 text-white animate-bounce" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 3v18l15-9L5 3z" /></svg>
+                          </span>
+                        </span>
+                      </button>
+                    </>
+                  )}
+                  {/* الفيديو */}
                   <video
                     id={`gallery-video-${idx}`}
                     src={`/videos/${vid}`}
-                    controls
-                    className="w-full h-40 object-cover transition-transform duration-200 group-hover:scale-110 bg-black"
+                    controls={isPlaying}
+                    poster={`/gallery/${images[0]}`}
+                    className={`w-full h-40 object-cover transition-transform duration-200 group-hover:scale-110 bg-black ${isPlaying ? 'block' : 'hidden'}`}
                     preload="none"
+                    autoPlay={isPlaying}
+                    onClick={e => e.stopPropagation()}
+                    onEnded={closeModal}
                   >
                     Your browser does not support the video tag.
                   </video>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </main>

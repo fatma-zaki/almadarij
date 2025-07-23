@@ -16,76 +16,53 @@ export function GallerySection({ locale }: GallerySectionProps) {
   const t = getTranslation(locale)
   const isRTL = locale === 'ar'
   const [activeTab, setActiveTab] = useState<'photos' | 'videos'>('photos')
+  // State to track which video is playing
+  const [playingIdx, setPlayingIdx] = useState<number | null>(null);
 
-  const photos = [
-    {
-      id: 1,
-      src: '/123.png',
-      title: isRTL ? 'الأنشطة التعليمية' : 'Educational Activities',
-      category: isRTL ? 'تعليم' : 'Education'
-    },
-    {
-      id: 2,
-      src: 'https://images.pexels.com/photos/8364026/pexels-photo-8364026.jpeg?auto=compress&cs=tinysrgb&w=600',
-      title: isRTL ? 'رياض الأطفال' : 'Kindergarten',
-      category: isRTL ? 'رياض أطفال' : 'Kindergarten'
-    },
-    {
-      id: 3,
-      src: '/sport.png',
-      title: isRTL ? 'الأنشطة الرياضية' : 'Sports Activities',
-      category: isRTL ? 'رياضة' : 'Sports'
-    },
-    {
-      id: 4,
-      src: 'https://images.pexels.com/photos/8471838/pexels-photo-8471838.jpeg?auto=compress&cs=tinysrgb&w=600',
-      title: isRTL ? 'الأنشطة الفنية' : 'Art Activities',
-      category: isRTL ? 'فنون' : 'Arts'
-    },
-    {
-      id: 5,
-      src: 'https://images.pexels.com/photos/8471844/pexels-photo-8471844.jpeg?auto=compress&cs=tinysrgb&w=600',
-      title: isRTL ? 'المختبر العلمي' : 'Science Lab',
-      category: isRTL ? 'علوم' : 'Science'
-    },
-    {
-      id: 6,
-      src: 'https://images.pexels.com/photos/8471822/pexels-photo-8471822.jpeg?auto=compress&cs=tinysrgb&w=600',
-      title: isRTL ? 'الأنشطة الثقافية' : 'Cultural Activities',
-      category: isRTL ? 'ثقافة' : 'Culture'
-    }
-  ]
+  const images = [
+    "صورة واتساب بتاريخ 2025-07-23 في 11.59.12_315e23ea.jpg",
+    "صورة واتساب بتاريخ 2025-07-23 في 11.59.12_b4860b03.jpg",
+    "صورة واتساب بتاريخ 2025-07-23 في 11.59.12_b9af7e2d.jpg",
+    "صورة واتساب بتاريخ 2025-07-23 في 11.59.12_cbd52088.jpg",
+    "صورة واتساب بتاريخ 2025-07-23 في 11.59.13_3954cc75.jpg",
+    "صورة واتساب بتاريخ 2025-07-23 في 11.59.13_6d562de8.jpg",
+    "صورة واتساب بتاريخ 2025-07-23 في 11.59.13_b903a8b2.jpg",
+    "صورة واتساب بتاريخ 2025-07-23 في 11.59.13_d1a34245.jpg",
+    "صورة واتساب بتاريخ 2025-07-23 في 11.59.14_0b752679.jpg",
+    "صورة واتساب بتاريخ 2025-07-23 في 11.59.14_1b1e9c1a.jpg",
+    "صورة واتساب بتاريخ 2025-07-23 في 11.59.14_74a4a13f.jpg",
+    "صورة واتساب بتاريخ 2025-07-23 في 11.59.14_7dc0f63e.jpg",
+    "صورة واتساب بتاريخ 2025-07-23 في 11.59.15_66c4630f.jpg",
+    "صورة واتساب بتاريخ 2025-07-23 في 11.59.15_8015d9b3.jpg",
+    "صورة واتساب بتاريخ 2025-07-23 في 11.59.15_950cf321.jpg",
+    "صورة واتساب بتاريخ 2025-07-23 في 11.59.17_1b39d19e.jpg",
+    "صورة واتساب بتاريخ 2025-07-23 في 11.59.17_350378c4.jpg",
+    "صورة واتساب بتاريخ 2025-07-23 في 11.59.17_c27758ce.jpg",
+    "صورة واتساب بتاريخ 2025-07-23 في 11.59.18_17f6947e.jpg",
+    "صورة واتساب بتاريخ 2025-07-23 في 11.59.18_741f5d89.jpg",
+    "صورة واتساب بتاريخ 2025-07-23 في 11.59.18_c5d4ed15.jpg",
+    "صورة واتساب بتاريخ 2025-07-23 في 11.59.18_d230e367.jpg",
+    "صورة واتساب بتاريخ 2025-07-23 في 11.59.19_0e63bf9a.jpg",
+    "صورة واتساب بتاريخ 2025-07-23 في 11.59.19_a9b62a02.jpg",
+    "صورة واتساب بتاريخ 2025-07-23 في 11.59.19_c49de002.jpg",
+  ];
 
   const videos = [
-    {
-      id: 1,
-      thumbnail: 'https://images.pexels.com/photos/8364022/pexels-photo-8364022.jpeg?auto=compress&cs=tinysrgb&w=600',
-      title: isRTL ? 'يوم في مدرستنا' : 'A Day at Our School',
-      duration: '3:45',
-      category: isRTL ? 'عام' : 'General'
-    },
-    {
-      id: 2,
-      thumbnail: 'https://images.pexels.com/photos/8471691/pexels-photo-8471691.jpeg?auto=compress&cs=tinysrgb&w=600',
-      title: isRTL ? 'حفل التخرج 2024' : 'Graduation Ceremony 2024',
-      duration: '8:12',
-      category: isRTL ? 'احتفالات' : 'Celebrations'
-    },
-    {
-      id: 3,
-      thumbnail: 'https://images.pexels.com/photos/8471709/pexels-photo-8471709.jpeg?auto=compress&cs=tinysrgb&w=600',
-      title: isRTL ? 'المعرض العلمي' : 'Science Fair',
-      duration: '5:23',
-      category: isRTL ? 'علوم' : 'Science'
-    },
-    {
-      id: 4,
-      thumbnail: 'https://images.pexels.com/photos/8364030/pexels-photo-8364030.jpeg?auto=compress&cs=tinysrgb&w=600',
-      title: isRTL ? 'البطولة الرياضية' : 'Sports Championship',
-      duration: '6:30',
-      category: isRTL ? 'رياضة' : 'Sports'
-    }
-  ]
+    "1.mp4",
+    "20.mp4",
+    "23.mp4",
+    "30.mp4",
+    "31.mp4",
+    "32.mp4",
+    "34.mp4",
+    "37.mp4",
+    "38.mp4",
+    "8.mp4",
+    "فيديو واتساب بتاريخ 2025-07-23 في 11.59.14_18b39bf3.mp4",
+    "فيديو واتساب بتاريخ 2025-07-23 في 11.59.15_3cec741c.mp4",
+    "فيديو واتساب بتاريخ 2025-07-23 في 11.59.16_64c4bf82.mp4",
+    "فيديو واتساب بتاريخ 2025-07-23 في 11.59.17_8bebbe32.mp4",
+  ];
 
   return (
     <section className="py-20 bg-gradient-to-br from-slate-50 to-blue-50" dir={isRTL ? 'rtl' : 'ltr'}>
@@ -129,74 +106,71 @@ export function GallerySection({ locale }: GallerySectionProps) {
         {/* Gallery Content */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           {activeTab === 'photos' ? (
-            photos.map((photo) => (
-              <Card key={photo.id} className="group overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer">
+            images.map((img, idx) => (
+              <Card key={img} className="group overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer">
                 <div className="relative h-64 overflow-hidden">
-                  <Image
-                    src={photo.src}
-                    alt={photo.title}
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  <img
+                    src={`/gallery/${img}`}
+                    alt={`gallery-img-${idx}`}
+                    className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
+                    loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  
-                  {/* Category Badge */}
-                  <Badge className="absolute top-4 left-4 bg-white/90 text-gray-700">
-                    {photo.category}
-                  </Badge>
-                  
-                  {/* View Icon */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center backdrop-blur-sm">
-                      <Eye className="w-8 h-8 text-gray-700" />
-                    </div>
-                  </div>
-                  
-                  {/* Title */}
-                  <div className="absolute bottom-4 left-4 right-4 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                    <h3 className="text-white font-semibold text-lg">{photo.title}</h3>
-                  </div>
                 </div>
               </Card>
             ))
           ) : (
-            videos.map((video) => (
-              <Card key={video.id} className="group overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer">
-                <div className="relative h-64 overflow-hidden">
-                  <Image
-                    src={video.thumbnail}
-                    alt={video.title}
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                  
-                  {/* Play Button */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-20 h-20 bg-white/90 rounded-full flex items-center justify-center backdrop-blur-sm group-hover:scale-110 transition-transform">
-                      <Play className="w-8 h-8 text-gray-700 ml-1" />
-                    </div>
+            videos.map((vid, idx) => {
+              const isPlaying = playingIdx === idx;
+              return (
+                <Card key={vid} className="group overflow-hidden hover:shadow-xl transition-all duration-300 flex items-center justify-center bg-black relative">
+                  <div className="relative h-64 w-full flex items-center justify-center">
+                    {/* علامة فيديو في الزاوية */}
+                    <span className="absolute top-3 left-3 z-20 bg-black/70 text-white text-xs px-2 py-1 rounded shadow-lg flex items-center gap-1">
+                      <Play className="w-3 h-3 inline-block mr-1" />
+                      فيديو
+                    </span>
+                    {/* صورة الغلاف وزر التشغيل */}
+                    {!isPlaying && (
+                      <>
+                        <img
+                          src={`/gallery/${images[0]}`}
+                          alt="video-poster"
+                          className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
+                          draggable={false}
+                        />
+                        <button
+                          className="absolute inset-0 flex items-center justify-center w-full h-full z-10 focus:outline-none"
+                          onClick={e => {
+                            e.stopPropagation();
+                            setPlayingIdx(idx);
+                          }}
+                          aria-label="تشغيل الفيديو"
+                          tabIndex={0}
+                        >
+                          <span className="flex items-center justify-center">
+                            <span className="animate-pulse rounded-full bg-black/70 hover:bg-black/90 p-8 shadow-2xl flex items-center justify-center transition-transform duration-200 group-hover:scale-110">
+                              <Play className="w-14 h-14 text-white animate-bounce" />
+                            </span>
+                          </span>
+                        </button>
+                      </>
+                    )}
+                    {/* الفيديو */}
+                    <video
+                      src={`/videos/${vid}`}
+                      controls={isPlaying}
+                      poster={`/gallery/${images[0]}`}
+                      className={`object-cover w-full h-full bg-black transition-all duration-300 ${isPlaying ? 'block' : 'hidden'}`}
+                      preload="none"
+                      onEnded={() => setPlayingIdx(null)}
+                      autoPlay={isPlaying}
+                    >
+                      Your browser does not support the video tag.
+                    </video>
                   </div>
-                  
-                  {/* Duration & Category */}
-                  <div className="absolute top-4 left-4 flex gap-2">
-                    <Badge className="bg-white/90 text-gray-700">
-                      {video.category}
-                    </Badge>
-                  </div>
-                  <div className="absolute top-4 right-4">
-                    <Badge variant="secondary" className="bg-black/60 text-white">
-                      {video.duration}
-                    </Badge>
-                  </div>
-                  
-                  {/* Title */}
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <h3 className="text-white font-semibold text-lg">{video.title}</h3>
-                  </div>
-                </div>
-              </Card>
-            ))
+                </Card>
+              );
+            })
           )}
         </div>
 

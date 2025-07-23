@@ -20,7 +20,9 @@ export default function Home() {
       <main className='m-12'>
         <HeroSection locale={locale} />
         <DepartmentsSection locale={locale} />
-        <ActivitiesSection locale={locale} />
+        <div id="activities">
+          <ActivitiesSection locale={locale} />
+        </div>
         <GallerySection locale={locale} />
         <ContactSection locale={locale} />
       </main>

@@ -1,9 +1,11 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { ArrowRight, ArrowLeft, Play } from 'lucide-react'
 import { getTranslation, Locale } from '@/lib/i18n'
 import Image from 'next/image'
+import { useState } from 'react'
 
 interface HeroSectionProps {
   locale: Locale
@@ -12,6 +14,7 @@ interface HeroSectionProps {
 export function HeroSection({ locale }: HeroSectionProps) {
   const t = getTranslation(locale)
   const isRTL = locale === 'ar'
+  const [open, setOpen] = useState(false);
 
   return (
     <section className="relative min-h-[80vh] bg-gradient-to-br from-blue-50 via-white to-green-50 flex items-center overflow-hidden" dir={isRTL ? 'rtl' : 'ltr'}>
@@ -39,15 +42,40 @@ export function HeroSection({ locale }: HeroSectionProps) {
 
             {/* CTA Buttons */}
             <div className="flex flex-wrap gap-4">
-              <Button size="lg" className="bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-lg px-8 py-6">
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-lg px-8 py-6"
+                onClick={() => {
+                  const el = document.getElementById('activities');
+                  if (el) {
+                    el.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+              >
                 {t.home.hero.cta}
                 {isRTL ? <ArrowLeft className="ml-2 w-5 h-5" /> : <ArrowRight className="mr-2 w-5 h-5" />}
               </Button>
-              
-              <Button variant="outline" size="lg" className="text-lg px-8 py-6 group">
-                <Play className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
-                {isRTL ? 'شاهد الفيديو' : 'Watch Video'}
-              </Button>
+              <Dialog open={open} onOpenChange={setOpen}>
+                <DialogTrigger asChild>
+                  <Button variant="outline" size="lg" className="text-lg px-8 py-6 group" onClick={() => setOpen(true)}>
+                    <Play className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+                    {isRTL ? 'شاهد الفيديو' : 'Watch Video'}
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-7xl w-full p-0 bg-transparent border-0 shadow-none flex items-center justify-center">
+                  <div className="w-full flex items-center justify-center">
+                    <video
+                      src="/main-video.mp4"
+                      controls
+                      autoPlay
+                      className="w-full h-[80vh] rounded-xl shadow-2xl border border-white bg-black"
+                    >
+                      <source src="/main-video.mp4" />
+                      <div className="text-white text-center p-4">تعذر تحميل الفيديو</div>
+                    </video>
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
 
             {/* Stats */}

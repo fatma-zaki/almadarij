@@ -127,7 +127,7 @@ export function ActivitiesSection({ locale }: ActivitiesSectionProps) {
                   {activity.description}
                 </p>
                 
-                <Button className={`w-full bg-gradient-to-r ${activity.color} hover:scale-105 transition-transform`}>
+                <Button className="w-full bg-primary text-white hover:bg-primary/90 hover:scale-105 transition-transform">
                   {isRTL ? 'اعرف المزيد' : 'Learn More'}
                   {isRTL ? 
                     <ArrowLeft className="mr-2 w-4 h-4" /> : 
