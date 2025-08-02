@@ -100,7 +100,7 @@ export function HeroSection({ locale }: HeroSectionProps) {
             <div className="relative w-full h-[500px] rounded-3xl overflow-hidden shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500">
               <div className="absolute inset-0 bg-gradient-to-br from-blue-400/20 to-green-400/20"></div>
               <Image
-                src="/123.png"
+                src="/hero.jpg"
                 alt="School Hero Image"
                 fill
                 className="object-cover"
