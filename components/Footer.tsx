@@ -75,7 +75,7 @@ export function Footer({ locale }: FooterProps) {
                 {t.nav.gallery}
               </Link>
               <Link href="/registration" className="opacity-80 hover:opacity-100 transition-opacity">
-                {t.nav.registration}
+                {isRTL ? 'تسجيل الطلاب' : 'Student Registration'}
               </Link>
             </nav>
           </div>

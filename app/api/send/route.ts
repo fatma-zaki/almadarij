@@ -98,6 +98,15 @@ export async function POST(req: NextRequest) {
 
     if (error) {
       console.error('Resend API Error:', error);
+      
+      // Handle specific API key errors
+      if ('statusCode' in error && error.statusCode === 401) {
+        return NextResponse.json({ 
+          error: 'Email service configuration error. Please contact the administrator.',
+          details: 'Invalid API key - needs to be regenerated'
+        }, { status: 500 });
+      }
+      
       return NextResponse.json({ 
         error: 'Failed to send email. Please try again later.',
         details: error.message 

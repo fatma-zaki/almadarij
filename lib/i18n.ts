@@ -13,8 +13,7 @@ export const translations = {
       activities: 'الأنشطة',
       gallery: 'معرض الوسائط',
       news: 'الأخبار',
-      contact: 'تواصل معنا',
-      registration: 'تسجيل الطلاب'
+      contact: 'تواصل معنا'
     },
     // Home page
     home: {
@@ -127,8 +126,7 @@ export const translations = {
       activities: 'Activities', 
       gallery: 'Gallery',
       news: 'News',
-      contact: 'Contact',
-      registration: 'Registration'
+      contact: 'Contact'
     },
     // Home page
     home: {
