@@ -1,16 +1,33 @@
 import { Resend } from 'resend';
 import { NextRequest, NextResponse } from 'next/server';
 
+// Check if API key is configured
+if (!process.env.RESEND_API_KEY) {
+  console.error('RESEND_API_KEY is not configured in environment variables');
+}
+
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Add GET method for debugging
 export async function GET(req: NextRequest) {
   console.log('GET request received at /api/send');
-  return NextResponse.json({ message: 'API endpoint is working', method: 'GET' });
+  return NextResponse.json({ 
+    message: 'API endpoint is working', 
+    method: 'GET',
+    hasApiKey: !!process.env.RESEND_API_KEY 
+  });
 }
 
 export async function POST(req: NextRequest) {
   console.log('POST request received at /api/send');
+  
+  // Check if API key is configured
+  if (!process.env.RESEND_API_KEY) {
+    console.error('RESEND_API_KEY is not configured');
+    return NextResponse.json({ 
+      error: 'Email service is not configured. Please contact the administrator.' 
+    }, { status: 500 });
+  }
   
   try {
     const body = await req.json();
@@ -81,13 +98,19 @@ export async function POST(req: NextRequest) {
 
     if (error) {
       console.error('Resend API Error:', error);
-      return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
+      return NextResponse.json({ 
+        error: 'Failed to send email. Please try again later.',
+        details: error.message 
+      }, { status: 500 });
     }
 
     console.log('Email sent successfully:', data);
     return NextResponse.json({ message: 'Email sent successfully!' });
   } catch (error) {
     console.error('Server Error:', error);
-    return NextResponse.json({ error: 'An unexpected error occurred' }, { status: 500 });
+    return NextResponse.json({ 
+      error: 'An unexpected error occurred. Please try again later.',
+      details: error instanceof Error ? error.message : 'Unknown error'
+    }, { status: 500 });
   }
 }
