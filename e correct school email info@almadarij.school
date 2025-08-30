@@ -1,0 +1,41 @@
+warning: in the working copy of 'components/ContactSection.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'components/Footer.tsx', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/app/api/send/route.ts b/app/api/send/route.ts[m
+[1mindex 80ce012..40b862c 100644[m
+[1m--- a/app/api/send/route.ts[m
+[1m+++ b/app/api/send/route.ts[m
+[36m@@ -59,7 +59,7 @@[m [mexport async function POST(req: NextRequest) {[m
+ [m
+     const { data, error } = await resend.emails.send({[m
+       from: 'School Website <onboarding@resend.dev>',   [m
+[31m-      to: ['almadarij@gmail.com'],[m
+[32m+[m[32m      to: ['info@almadarij.school'],[m
+       subject: `New Message from ${name} via Contact Form`,[m
+       replyTo: email,[m
+       html: emailHtml,[m
+[1mdiff --git a/components/ContactSection.tsx b/components/ContactSection.tsx[m
+[1mindex 35ef9ee..bbc57b8 100644[m
+[1m--- a/components/ContactSection.tsx[m
+[1m+++ b/components/ContactSection.tsx[m
+[36m@@ -66,7 +66,7 @@[m [mexport function ContactSection({ locale }: ContactSectionProps) {[m
+     {[m
+       icon: Mail,[m
+       title: t.home.contact.email,[m
+[31m-      value: 'almadarij@gmail.com',[m
+[32m+[m[32m      value: 'info@almadarij.school',[m
+       color: 'from-primary-400 to-primary-500'[m
+     },[m
+     {[m
+[1mdiff --git a/components/Footer.tsx b/components/Footer.tsx[m
+[1mindex be439bb..d638cce 100644[m
+[1m--- a/components/Footer.tsx[m
+[1m+++ b/components/Footer.tsx[m
+[36m@@ -90,7 +90,7 @@[m [mexport function Footer({ locale }: FooterProps) {[m
+               </div>[m
+               <div className="flex items-center gap-3">[m
+                 <Mail className="w-5 h-5" />[m
+[31m-                <span>almadarij@gmail.com</span>[m
+[32m+[m[32m                <span>info@almadarij.school</span>[m
+               </div>[m
+               <div className="flex items-start gap-3">[m
+                 <MapPin className="w-5 h-5 mt-1" />[m

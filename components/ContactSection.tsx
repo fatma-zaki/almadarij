@@ -66,7 +66,7 @@ export function ContactSection({ locale }: ContactSectionProps) {
     {
       icon: Mail,
       title: t.home.contact.email,
-      value: 'almadarij@gmail.com',
+      value: 'info@almadarij.school',
       color: 'from-primary-400 to-primary-500'
     },
     {

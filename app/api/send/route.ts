@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
 
     const { data, error } = await resend.emails.send({
       from: 'School Website <onboarding@resend.dev>',   
-      to: ['almadarij@gmail.com'],
+      to: ['info@almadarij.school'],
       subject: `New Message from ${name} via Contact Form`,
       replyTo: email,
       html: emailHtml,
