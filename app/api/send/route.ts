@@ -3,24 +3,39 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+// Add GET method for debugging
+export async function GET(req: NextRequest) {
+  console.log('GET request received at /api/send');
+  return NextResponse.json({ message: 'API endpoint is working', method: 'GET' });
+}
+
 export async function POST(req: NextRequest) {
+  console.log('POST request received at /api/send');
+  
   try {
     const body = await req.json();
+    console.log('Request body:', body);
+    
     const { name, email, phone, subject, message } = body;
 
     //  التحقق من البيانات
     if (!name || !email || !message) {
+      console.log('Missing required fields:', { name, email, message });
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
+      console.log('Invalid email format:', email);
       return NextResponse.json({ error: 'Invalid email format' }, { status: 400 });
     }
 
     if (message.length > 1000) {
+      console.log('Message too long:', message.length);
       return NextResponse.json({ error: 'Message is too long' }, { status: 400 });
     }
+
+    console.log('Sending email to:', 'info@almadarij.school');
 
     //  قالب الايميل
     const emailHtml = `
@@ -56,7 +71,6 @@ export async function POST(req: NextRequest) {
     `;
 
     //  إرسال الإيميل
-
     const { data, error } = await resend.emails.send({
       from: 'School Website <onboarding@resend.dev>',   
       to: ['info@almadarij.school'],
@@ -70,6 +84,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
     }
 
+    console.log('Email sent successfully:', data);
     return NextResponse.json({ message: 'Email sent successfully!' });
   } catch (error) {
     console.error('Server Error:', error);
