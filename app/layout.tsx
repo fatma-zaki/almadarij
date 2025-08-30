@@ -9,17 +9,31 @@ export const metadata: Metadata = {
   description: 'مدارس المدارج الخاصة تُعنى ببناء شخصية متكاملة تجمع بين القيم، والمهارات، والمعرفة، في بيئة تعليمية آمنة ومحفّزة | Al-Madarij Private Schools cares about building an integrated personality that combines values, skills, and knowledge',
   keywords: 'مدارس المدارج، تعليم، الرياض، رياض أطفال، ابتدائي، تحفيظ قرآن، كامبريدج، سباحة، كاراتيه, Al-Madarij, education, Riyadh, kindergarten, elementary, Quran, Cambridge, swimming, karate',
   authors: [{ name: 'Al-Madarij Private Schools' }],
+  icons: {
+    icon: '/LOGO.jpg',
+    shortcut: '/LOGO.jpg',
+    apple: '/LOGO.jpg',
+  },
   openGraph: {
     title: 'مدارس المدارج الخاصة | Al-Madarij Private Schools',
     description: 'مدارس المدارج الخاصة تُعنى ببناء شخصية متكاملة تجمع بين القيم، والمهارات، والمعرفة',
     type: 'website',
     locale: 'ar_SA',
     alternateLocale: 'en_US',
+    images: [
+      {
+        url: '/LOGO.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Al-Madarij Private Schools Logo',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'مدارس المدارج الخاصة',
     description: 'مدارس المدارج الخاصة تُعنى ببناء شخصية متكاملة تجمع بين القيم، والمهارات، والمعرفة',
+    images: ['/LOGO.jpg'],
   },
 }
 
