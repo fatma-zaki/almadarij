@@ -6,15 +6,13 @@ if (!process.env.RESEND_API_KEY) {
   console.error('RESEND_API_KEY is not configured in environment variables');
 }
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-// Add GET method for debugging
 export async function GET(req: NextRequest) {
   console.log('GET request received at /api/send');
   return NextResponse.json({ 
     message: 'API endpoint is working', 
     method: 'GET',
-    hasApiKey: !!process.env.RESEND_API_KEY 
+    hasApiKey: !!process.env.RESEND_API_KEY,
+    apiKeyPrefix: process.env.RESEND_API_KEY ? process.env.RESEND_API_KEY.substring(0, 10) + '...' : 'Not set'
   });
 }
 
@@ -22,10 +20,12 @@ export async function POST(req: NextRequest) {
   console.log('POST request received at /api/send');
   
   // Check if API key is configured
-  if (!process.env.RESEND_API_KEY) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
     console.error('RESEND_API_KEY is not configured');
     return NextResponse.json({ 
-      error: 'Email service is not configured. Please contact the administrator.' 
+      error: 'Email service is not configured. Please contact the administrator.',
+      details: 'RESEND_API_KEY environment variable is missing'
     }, { status: 500 });
   }
   
@@ -53,6 +53,8 @@ export async function POST(req: NextRequest) {
     }
 
     console.log('Sending email to:', 'info@almadarij.school');
+
+    const resend = new Resend(apiKey);
 
     //  قالب الايميل
     const emailHtml = `
@@ -89,7 +91,7 @@ export async function POST(req: NextRequest) {
 
     //  إرسال الإيميل
     const { data, error } = await resend.emails.send({
-      from: 'School Website <onboarding@resend.dev>',   
+      from: 'School Website <noreply@almadarij.school>',   
       to: ['info@almadarij.school'],
       subject: `New Message from ${name} via Contact Form`,
       replyTo: email,

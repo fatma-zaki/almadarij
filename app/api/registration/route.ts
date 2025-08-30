@@ -6,16 +6,16 @@ if (!process.env.RESEND_API_KEY) {
   console.error('RESEND_API_KEY is not configured in environment variables');
 }
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function POST(req: NextRequest) {
   console.log('Registration POST request received');
   
   // Check if API key is configured
-  if (!process.env.RESEND_API_KEY) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
     console.error('RESEND_API_KEY is not configured');
     return NextResponse.json({ 
-      error: 'Registration service is not configured. Please contact the administrator.' 
+      error: 'Registration service is not configured. Please contact the administrator.',
+      details: 'RESEND_API_KEY environment variable is missing'
     }, { status: 500 });
   }
   
@@ -52,6 +52,8 @@ export async function POST(req: NextRequest) {
     }
 
     console.log('Sending registration email to:', 'info@almadarij.school');
+
+    const resend = new Resend(apiKey);
 
     // Create email HTML
     const emailHtml = `
@@ -165,7 +167,7 @@ export async function POST(req: NextRequest) {
 
     // Send email
     const { data, error } = await resend.emails.send({
-      from: 'School Registration <onboarding@resend.dev>',   
+      from: 'School Registration <noreply@almadarij.school>',   
       to: ['info@almadarij.school'],
       subject: `New Student Registration: ${studentName} - Grade ${grade}`,
       replyTo: fatherEmail || 'no-reply@almadarij.school',
